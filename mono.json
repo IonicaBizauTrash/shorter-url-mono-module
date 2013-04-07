@@ -1,0 +1,11 @@
+{
+    "source": "github",
+    "owner": "IonicaBizau",
+    "name": "shorter-url-module",
+    "main": "main.js",
+    "operations": [
+        { "file": "operations.js", "function": "insert" },
+        { "file": "operations.js", "function": "delete" },
+        { "file": "operations.js", "function": "get" },
+    ]
+}
