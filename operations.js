@@ -1,40 +1,61 @@
-// Positions object
-var positions = {};
+var links = {};
 
-// Operations
-exports.update = function(link) {
-    var data = link.data;
-    var color = data.id.toString().substring(0, 1);
-    var idInArray = parseInt(data.id.toString().substring(1));
+exports.get = function (link) {
+    
+    if (link.data) {
+        var url = links[link.data];
+        
+        if (url) {
+            link.send(200, url);
+            return;
+        }
 
-    if(color === "W") {
-        positions.white[idInArray] = { "x" : data.x, "y" : data.y };
+        link.send(200, "Invalid short url.");
+        return;
     }
-    else {
-        positions.black[idInArray] = { "x" : data.x, "y" : data.y };
-    }
 
-    link.send(200, positions);
-};
-
-// Built positions object
-exports.setPositions = function(link) {
-    positions = link.data;
-    link.send(200);
-};
-
-// Get positions operations
-exports.getPositions = function(link) {
-    link.send(200, positions);
-};
-
-// Reset the game
-exports.resetGame = function(linke) {
-    if(link.data === "IonicaBizauMill") {
-        positions = {};
-        link.send(200, "Refresh page");
-    }
-    else {
-        link.send(200, "Wrong password");
-    }
+    link.send(200, "No data sent to me.");
 }
+
+exports.insert = function (link) {
+
+    // TODO: validation
+
+    if (link.data) {
+        var url = generate(4);
+
+        while (links[url]) {
+            url = generate(4);
+        }
+
+        links[url] = link.data;
+        link.send(200, url);
+        return;
+    }
+
+    link.send(200, "No data sent to me.");
+}
+
+exports.delete = function (link) {
+    
+    if (link.data === "deleteAll") {
+        links = {};
+        link.send(200);
+        return;
+    }
+
+    link.send(200, "Invalid password");
+}
+
+function generate(l) {
+    var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYXabcdefghijklmnopqrstuvwxyz";
+
+    var res = "";
+
+    for (var i = 0; i < l; i++) {
+        res += letters[Math.floor(Math.random() * letters.length)];
+    }
+
+    return res;
+}
+
