@@ -6,6 +6,6 @@
     "operations": [
         { "file": "operations.js", "function": "insert" },
         { "file": "operations.js", "function": "delete" },
-        { "file": "operations.js", "function": "get" },
+        { "file": "operations.js", "function": "get" }
     ]
 }
